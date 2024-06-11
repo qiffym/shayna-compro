@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
         Route::middleware(['can:manage products'])->group(function () {
             Route::resource('products', Controllers\ProductsController::class);
         });
+        Route::middleware(['can: manage principles'])->group(function () {
+            Route::resource('principles', Controllers\OurPrincipleController::class);
+        });
         Route::middleware(['can:manage testimonials'])->group(function () {
             Route::resource('testimonials', Controllers\TestimonialController::class);
         });
