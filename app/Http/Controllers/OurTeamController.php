@@ -12,7 +12,10 @@ class OurTeamController extends Controller
      */
     public function index()
     {
-        //
+        $teams = OurTeam::query()->latest()->paginate(10);
+        return view('admin.teams.index', [
+            'teams' => $teams,
+        ]);
     }
 
     /**

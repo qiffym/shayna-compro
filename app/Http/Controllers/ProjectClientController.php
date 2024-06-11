@@ -12,7 +12,10 @@ class ProjectClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = ProjectClient::query()->latest()->paginate(10);
+        return view('admin.clients.index', [
+            'clients' => $clients,
+        ]);
     }
 
     /**

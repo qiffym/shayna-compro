@@ -12,7 +12,10 @@ class CompanyAboutController extends Controller
      */
     public function index()
     {
-        //
+        $abouts = CompanyAbout::query()->latest()->paginate(10);
+        return view('admin.abouts.index', [
+            'abouts' => $abouts,
+        ]);
     }
 
     /**

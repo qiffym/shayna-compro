@@ -12,7 +12,10 @@ class HeroSectionController extends Controller
      */
     public function index()
     {
-        //
+        $hero_sections = HeroSection::query()->latest()->paginate(10);
+        return view('admin.hero_sections.index', [
+            'hero_sections' => $hero_sections,
+        ]);
     }
 
     /**

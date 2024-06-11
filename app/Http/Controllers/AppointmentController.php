@@ -12,7 +12,10 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::query()->latest()->paginate(10);
+        return view('admin.appointments.index', [
+            'appointments' => $appointments,
+        ]);
     }
 
     /**

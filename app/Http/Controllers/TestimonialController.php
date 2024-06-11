@@ -12,7 +12,10 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        //
+        $testimonials = Testimonial::query()->latest()->paginate(10);
+        return view('admin.testimonials.index', [
+            'testimonials' => $testimonials,
+        ]);
     }
 
     /**
