@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectClient;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,10 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        //
+        $clients = ProjectClient::query()->latest()->paginate(10);
+        return view('admin.testimonials.create', [
+            'clients' => $clients
+        ]);
     }
 
     /**
