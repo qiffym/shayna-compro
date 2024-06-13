@@ -53,7 +53,7 @@ class CompanyAboutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CompanyAbout $companyAbout)
+    public function show(CompanyAbout $about)
     {
         //
     }
@@ -61,7 +61,7 @@ class CompanyAboutController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CompanyAbout $companyAbout)
+    public function edit(CompanyAbout $about)
     {
         //
     }
@@ -69,7 +69,7 @@ class CompanyAboutController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreAboutRequest $request, CompanyAbout $companyAbout)
+    public function update(StoreAboutRequest $request, CompanyAbout $about)
     {
         //
     }
@@ -77,8 +77,12 @@ class CompanyAboutController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompanyAbout $companyAbout)
+    public function destroy(CompanyAbout $about)
     {
-        //
+        DB::transaction(function () use ($about) {
+            $about->delete();
+        });
+
+        return redirect()->back();
     }
 }

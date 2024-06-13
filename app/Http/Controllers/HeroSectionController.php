@@ -50,7 +50,7 @@ class HeroSectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HeroSection $heroSection)
+    public function show(HeroSection $hero_section)
     {
         //
     }
@@ -58,7 +58,7 @@ class HeroSectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HeroSection $heroSection)
+    public function edit(HeroSection $hero_section)
     {
         //
     }
@@ -66,7 +66,7 @@ class HeroSectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreHeroSectionRequest $request, HeroSection $heroSection)
+    public function update(StoreHeroSectionRequest $request, HeroSection $hero_section)
     {
         //
     }
@@ -74,8 +74,12 @@ class HeroSectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HeroSection $heroSection)
+    public function destroy(HeroSection $hero_section)
     {
-        //
+        DB::transaction(function () use ($hero_section) {
+            $hero_section->delete();
+        });
+
+        return redirect()->back();
     }
 }

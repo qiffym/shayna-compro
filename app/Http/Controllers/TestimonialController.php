@@ -80,6 +80,10 @@ class TestimonialController extends Controller
      */
     public function destroy(Testimonial $testimonial)
     {
-        //
+        DB::transaction(function () use ($testimonial) {
+            $testimonial->delete();
+        });
+
+        return redirect()->back();
     }
 }

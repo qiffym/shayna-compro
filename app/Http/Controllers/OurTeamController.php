@@ -50,7 +50,7 @@ class OurTeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OurTeam $ourTeam)
+    public function show(OurTeam $team)
     {
         //
     }
@@ -58,7 +58,7 @@ class OurTeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OurTeam $ourTeam)
+    public function edit(OurTeam $team)
     {
         //
     }
@@ -66,7 +66,7 @@ class OurTeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreTeamRequest $request, OurTeam $ourTeam)
+    public function update(StoreTeamRequest $request, OurTeam $team)
     {
         //
     }
@@ -74,8 +74,12 @@ class OurTeamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OurTeam $ourTeam)
+    public function destroy(OurTeam $team)
     {
-        //
+        DB::transaction(function () use ($team) {
+            $team->delete();
+        });
+
+        return redirect()->back();
     }
 }

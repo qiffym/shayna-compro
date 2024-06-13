@@ -44,10 +44,10 @@
                         <div class="flex flex-col gap-y-5">
                             @for ($i = 0; $i < 3; $i++)
                                 <input type="text" class="py-3 border rounded-lg border-slate-300" placeholder="Write your keypoint"
-                                       name="keypoints[]">
+                                       name="keypoints[{{ $i }}]">
+                                <x-input-error :messages="$errors->get('keypoints.{{ $i }}')" class="mt-2" />
                             @endfor
                         </div>
-                        <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
