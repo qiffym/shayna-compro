@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('statistics', Controllers\CompanyStatisticController::class);
         });
         Route::middleware(['can:manage products'])->group(function () {
-            Route::resource('products', Controllers\ProductsController::class);
+            Route::resource('products', Controllers\ProductController::class);
         });
         Route::middleware(['can: manage principles'])->group(function () {
             Route::resource('principles', Controllers\OurPrincipleController::class);

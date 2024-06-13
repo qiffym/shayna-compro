@@ -9,7 +9,7 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="p-10 overflow-hidden bg-white shadow-sm sm:rounded-lg">
 
-                <form method="POST" action="{{ route('admin.abouts.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.abouts.store') }}" enctype="multipart/form-data" novalidate>
                     @csrf
 
                     <div>
@@ -42,12 +42,10 @@
 
                     <div class="mt-4">
                         <div class="flex flex-col gap-y-5">
-
                             @for ($i = 0; $i < 3; $i++)
                                 <input type="text" class="py-3 border rounded-lg border-slate-300" placeholder="Write your keypoint"
-                                       name="{{ "keypoints[$i]" }}">
+                                       name="keypoints[]">
                             @endfor
-
                         </div>
                         <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
                     </div>

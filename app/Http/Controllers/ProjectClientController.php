@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use App\Models\ProjectClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectClientController extends Controller
 {
@@ -32,7 +33,21 @@ class ProjectClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('avatar') && $request->hasFile('logo')) {
+                $avatarPath = $request->file('avatar')->store('avatars', 'public');
+                $logoPath = $request->file('logo')->store('logos', 'public');
+
+                $validatedData['avatar'] = $avatarPath;
+                $validatedData['logo'] = $logoPath;
+            }
+
+            $newClient = ProjectClient::create($validatedData);
+        });
+
+        return to_route('admin.teams.index');
     }
 
     /**

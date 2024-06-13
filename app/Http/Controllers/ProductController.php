@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
-use App\Models\Products;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Products::query()->latest()->paginate(10);
+        $products = Product::query()->latest()->paginate(10);
         return view('admin.products.index', [
             'products' => $products,
         ]);
@@ -32,13 +33,24 @@ class ProductsController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $validatedData['thumbnail'] = $thumbnailPath;
+            }
+
+            $newTeam = Product::create($validatedData);
+        });
+
+        return to_route('admin.products.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show(Product $products)
     {
         //
     }
@@ -46,7 +58,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $products)
+    public function edit(Product $products)
     {
         //
     }
@@ -54,7 +66,7 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreProductRequest $request, Products $products)
+    public function update(StoreProductRequest $request, Product $products)
     {
         //
     }
@@ -62,7 +74,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy(Product $products)
     {
         //
     }

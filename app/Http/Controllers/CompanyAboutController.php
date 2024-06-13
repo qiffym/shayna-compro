@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAboutRequest;
 use App\Models\CompanyAbout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompanyAboutController extends Controller
 {
@@ -32,7 +33,21 @@ class CompanyAboutController extends Controller
      */
     public function store(StoreAboutRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validatedData = $request->validated();
+            $keypoints = $validatedData['keypoints'];
+
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $validatedData['thumbnail'] = $thumbnailPath;
+            }
+
+            $newAbout = CompanyAbout::create($validatedData);
+
+            collect($keypoints)->each(fn ($keypoint) => $newAbout->keypoints()->create(['keypoint' => $keypoint]));
+        });
+
+        return to_route('admin.abouts.index');
     }
 
     /**
