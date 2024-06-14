@@ -1,55 +1,61 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Edit About') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden p-10 shadow-sm sm:rounded-lg"> 
-                
-                <form method="POST" action=" " enctype="multipart/form-data"> 
+            <div class="p-10 overflow-hidden bg-white shadow-sm sm:rounded-lg">
+
+                <form method="POST" action="{{ route('admin.abouts.update', $about) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
                     <div>
                         <x-input-label for="name" :value="__('Name')" />
-                        <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" 
-                          required autofocus autocomplete="name" />
+                        <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name', $about->name)" required autofocus
+                                      autocomplete="name" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="thumbnail" :value="__('thumbnail')" />
-                        <img src=" " alt="" class="rounded-2xl object-cover w-[90px] h-[90px]">
-                        <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" autofocus autocomplete="thumbnail" />
+                        <x-input-label for="thumbnail" :value="__('Thumbnail')" />
+                        <img src="{{ asset($about->thumbnail) }}" alt="thumbnail" class="rounded-2xl object-cover w-[90px] h-[90px]">
+                        <x-text-input id="thumbnail" class="block w-full mt-1" type="file" name="thumbnail" autofocus autocomplete="thumbnail" />
                         <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="type" :value="__('type')" />
-                        
-                        <select name="type" id="type" class="py-3 rounded-lg pl-3 w-full border border-slate-300">
-                            <option value="Visions">Visions</option>
-                            <option value="Missions">Missions</option>
+                        <x-input-label for="type" :value="__('Type')" />
+                        <select name="type" id="type" class="w-full py-3 pl-3 border rounded-lg border-slate-300">
+                            @if ($about->type === 'Visions')
+                                <option selected value="Visions">Visions</option>
+                                <option value="Missions">Missions</option>
+                            @else
+                                <option selected value="Missions">Missions</option>
+                                <option value="Visions">Visions</option>
+                            @endif
                         </select>
 
                         <x-input-error :messages="$errors->get('type')" class="mt-2" />
                     </div>
 
-                    <h3 class="text-indigo-950 text-lg font-bold mt-4">Keypoints</h3>
-
+                    <h3 class="mt-4 text-lg font-bold text-indigo-950">Keypoints</h3>
                     <div class="mt-4">
-                        
-                        <div class="flex flex-col gap-y-5">
-                            <x-input-label for="keypoints" :value="__('keypoints')" /> 
-                                <input type="text" class="py-3 rounded-lg border-slate-300 border" value="asdsadsadsad" name="keypoints[]">
-                             
+                        <div class="flex flex-col gap-y-3">
+                            @foreach ($about->keypoints as $keypoint)
+                                <input type="text" class="py-3 border rounded-lg border-slate-300" placeholder="Write your keypoint"
+                                       name="keypoints[]" value="{{ old('keypoint', $keypoint->keypoint) }}">
+                                <x-input-error :messages="$errors->get('keypoints.{{ $i }}')" class="mt-2" />
+                            @endforeach
                         </div>
-                        <x-input-error :messages="$errors->get('keypoint')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-            
-                        <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+
+                        <button type="submit" class="px-6 py-4 font-bold text-white bg-indigo-700 rounded-full">
                             Update About
                         </button>
                     </div>

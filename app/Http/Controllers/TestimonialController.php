@@ -64,7 +64,11 @@ class TestimonialController extends Controller
      */
     public function edit(Testimonial $testimonial)
     {
-        //
+        $clients = ProjectClient::query()->whereNot('id', $testimonial->project_client_id)->latest()->paginate(10);
+        return view('admin.testimonials.edit', [
+            'testimonial' => $testimonial,
+            'clients' => $clients
+        ]);
     }
 
     /**
@@ -72,7 +76,7 @@ class TestimonialController extends Controller
      */
     public function update(StoreTestimonialRequest $request, Testimonial $testimonial)
     {
-        //
+        dd($request->validated());
     }
 
     /**

@@ -47,13 +47,13 @@ class ProjectClientController extends Controller
             $newClient = ProjectClient::create($validatedData);
         });
 
-        return to_route('admin.teams.index');
+        return to_route('admin.clients.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ProjectClient $projectClient)
+    public function show(ProjectClient $client)
     {
         //
     }
@@ -61,15 +61,17 @@ class ProjectClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProjectClient $projectClient)
+    public function edit(ProjectClient $client)
     {
-        //
+        return view('admin.clients.edit', [
+            'client' => $client
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreClientRequest $request, ProjectClient $projectClient)
+    public function update(StoreClientRequest $request, ProjectClient $client)
     {
         //
     }

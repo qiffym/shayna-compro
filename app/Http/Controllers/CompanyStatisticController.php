@@ -60,7 +60,7 @@ class CompanyStatisticController extends Controller
      */
     public function edit(CompanyStatistic $statistic)
     {
-        //
+        view('admin.statistics.edit', compact('statistic'));
     }
 
     /**

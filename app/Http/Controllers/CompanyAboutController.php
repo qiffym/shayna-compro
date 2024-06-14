@@ -63,7 +63,9 @@ class CompanyAboutController extends Controller
      */
     public function edit(CompanyAbout $about)
     {
-        //
+        return view('admin.abouts.edit', [
+            'about' => $about
+        ]);
     }
 
     /**

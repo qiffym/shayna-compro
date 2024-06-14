@@ -60,7 +60,9 @@ class OurTeamController extends Controller
      */
     public function edit(OurTeam $team)
     {
-        //
+        return view('admin.teams.edit', [
+            'team' => $team
+        ]);
     }
 
     /**

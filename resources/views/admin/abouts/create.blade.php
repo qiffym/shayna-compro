@@ -41,7 +41,7 @@
                     <h3 class="mt-4 text-lg font-bold text-indigo-950">Keypoints</h3>
 
                     <div class="mt-4">
-                        <div class="flex flex-col gap-y-5">
+                        <div class="flex flex-col gap-y-3">
                             @for ($i = 0; $i < 3; $i++)
                                 <input type="text" class="py-3 border rounded-lg border-slate-300" placeholder="Write your keypoint"
                                        name="keypoints[{{ $i }}]">

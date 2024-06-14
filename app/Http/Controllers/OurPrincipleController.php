@@ -62,7 +62,9 @@ class OurPrincipleController extends Controller
      */
     public function edit(OurPrinciple $principle)
     {
-        //
+        return view('admin.principles.edit', [
+            'principle' => $principle
+        ]);
     }
 
     /**
