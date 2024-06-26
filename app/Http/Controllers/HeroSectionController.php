@@ -6,6 +6,7 @@ use App\Http\Requests\StoreHeroSectionRequest;
 use App\Models\HeroSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class HeroSectionController extends Controller
 {
@@ -68,7 +69,20 @@ class HeroSectionController extends Controller
      */
     public function update(StoreHeroSectionRequest $request, HeroSection $hero_section)
     {
-        //
+        DB::transaction(function () use ($request, $hero_section) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('banner')) {
+                Storage::delete("public/$hero_section->banner");
+
+                $bannerPath = $request->file('banner')->store('banners', 'public');
+                $validatedData['banner'] = $bannerPath;
+            }
+
+            $hero_section->update($validatedData);
+        });
+
+        return to_route('admin.hero_sections.index');
     }
 
     /**

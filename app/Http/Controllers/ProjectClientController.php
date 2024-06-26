@@ -6,6 +6,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Models\ProjectClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectClientController extends Controller
 {
@@ -73,7 +74,28 @@ class ProjectClientController extends Controller
      */
     public function update(StoreClientRequest $request, ProjectClient $client)
     {
-        //
+        DB::transaction(function () use ($request, $client) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('avatar') || $request->hasFile('logo')) {
+                if ($request->hasFile('avatar')) {
+                    Storage::delete("public/$client->avatar");
+                }
+                if ($request->hasFile('logo')) {
+                    Storage::delete("public/$client->logo");
+                }
+
+                $avatarPath = $request->file('avatar')->store('avatars', 'public');
+                $logoPath = $request->file('logo')->store('logos', 'public');
+
+                $validatedData['avatar'] = $avatarPath;
+                $validatedData['logo'] = $logoPath;
+            }
+
+            $client->update($validatedData);
+        });
+
+        return to_route('admin.clients.index');
     }
 
     /**

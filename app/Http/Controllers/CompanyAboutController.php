@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAboutRequest;
 use App\Models\CompanyAbout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyAboutController extends Controller
 {
@@ -73,7 +74,24 @@ class CompanyAboutController extends Controller
      */
     public function update(StoreAboutRequest $request, CompanyAbout $about)
     {
-        //
+        DB::transaction(function () use ($request, $about) {
+            $validatedData = $request->validated();
+            $keypoints = $validatedData['keypoints'];
+
+            if ($request->hasFile('thumbnail')) {
+                Storage::delete("public/$about->thumbnail");
+
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $validatedData['thumbnail'] = $thumbnailPath;
+            }
+
+            $about->update($validatedData);
+
+            $about->keypoints()->delete();
+            collect($keypoints)->each(fn ($keypoint) => $about->keypoints()->create(['keypoint' => $keypoint]));
+        });
+
+        return to_route('admin.abouts.index');
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Requests\StorePrincipleRequest;
 use App\Models\OurPrinciple;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OurPrincipleController extends Controller
 {
@@ -72,7 +73,28 @@ class OurPrincipleController extends Controller
      */
     public function update(StorePrincipleRequest $request, OurPrinciple $principle)
     {
-        //
+        DB::transaction(function () use ($request, $principle) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('thumbnail') || $request->hasFile('icon')) {
+                if ($request->hasFile('thumbnail')) {
+                    Storage::delete("public/$principle->thumbnail");
+                }
+                if ($request->hasFile('icon')) {
+                    Storage::delete("public/$principle->icon");
+                }
+
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $iconPath = $request->file('icon')->store('icons', 'public');
+
+                $validatedData['thumbnail'] = $thumbnailPath;
+                $validatedData['icon'] = $iconPath;
+            }
+
+            $principle->update($validatedData);
+        });
+
+        return to_route('admin.principles.index');
     }
 
     /**

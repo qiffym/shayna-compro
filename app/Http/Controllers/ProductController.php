@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -70,7 +71,20 @@ class ProductController extends Controller
      */
     public function update(StoreProductRequest $request, Product $product)
     {
-        //
+        DB::transaction(function () use ($request, $product) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('thumbnail')) {
+                Storage::delete("public/$product->thumbnail");
+
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $validatedData['thumbnail'] = $thumbnailPath;
+            }
+
+            $product->update($validatedData);
+        });
+
+        return to_route('admin.products.index');
     }
 
     /**

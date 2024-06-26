@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTeamRequest;
 use App\Models\OurTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OurTeamController extends Controller
 {
@@ -70,7 +71,20 @@ class OurTeamController extends Controller
      */
     public function update(StoreTeamRequest $request, OurTeam $team)
     {
-        //
+        DB::transaction(function () use ($request, $team) {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('avatar')) {
+                Storage::delete("public/$team->avatar");
+
+                $avatarPath = $request->file('avatar')->store('avatars', 'public');
+                $validatedData['avatar'] = $avatarPath;
+            }
+
+            $team->update($validatedData);
+        });
+
+        return to_route('admin.teams.index');
     }
 
     /**

@@ -1,15 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('New Team') }}
+            {{ __('Edit Team') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="p-10 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                @endif
-
                 <form method="POST" action="{{ route('admin.teams.update', $team) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
