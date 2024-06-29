@@ -16,7 +16,7 @@
                 @forelse ($statistics as $statistic)
                     <div class="flex flex-row items-center justify-between item-card">
                         <div class="flex flex-row items-center gap-x-3">
-                            <img class="rounded-2xl object-cover w-[90px] h-[90px]" src="{{ asset($statistic->icon) }}" alt=" ">
+                            <img class="rounded-2xl object-cover w-[90px] h-[90px]" src="{{ asset($statistic->icon) }}" alt="Icon">
                             <div class="flex flex-col">
                                 <h3 class="text-xl font-bold text-indigo-950">{{ $statistic->name }}</h3>
                             </div>

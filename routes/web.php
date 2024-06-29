@@ -3,7 +3,8 @@
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Controllers\HomeController::class)->name('homepage');
+// Route::get('/', Controllers\HomeController::class)->name('homepage');
+Route::get('/', [Controllers\FrontController::class, 'index'])->name('front.index');
 
 Route::get('dashboard', function () {
     return view('dashboard');
