@@ -1,24 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-row justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex flex-row items-center justify-between">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 {{ __('Details Booking') }}
             </h2>
         </div>
     </x-slot>
-    
+
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
+            <div class="flex flex-col p-10 overflow-hidden bg-white shadow-sm sm:rounded-lg gap-y-5">
 
-                <div class="item-card flex flex-row justify-between items-center">
+                <div class="flex flex-row items-center justify-between item-card">
                     <div class="flex flex-row items-center gap-x-3">
-                        <img src=" " alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                        <img src="{{ asset($appointment->product->thumbnail) }}" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Product Interest</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">asdasdadad</h3>
+                            <p class="text-sm text-slate-500">Product Interest</p>
+                            <h3 class="text-xl font-bold text-indigo-950">{{ $appointment->product->name }}</h3>
                         </div>
-                    </div>  
+                    </div>
                 </div>
 
                 <hr class="my-5">
@@ -26,45 +26,45 @@
                 <div class="grid grid-cols-2 gap-5">
                     <div class="flex flex-col gap-y-4">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Name</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                asdsadad
+                            <p class="text-sm text-slate-500">Name</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $appointment->name }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Email</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                asdasdsadsadsd
+                            <p class="text-sm text-slate-500">Email</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $appointment->email }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Phone</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                +12312334534
+                            <p class="text-sm text-slate-500">Phone</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $appointment->phone_number }}
                             </h3>
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-4">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Brief</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                asdasd qweqwewqe
+                            <p class="text-sm text-slate-500">Brief</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $appointment->brief }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Budget</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                Rp 0
+                            <p class="text-sm text-slate-500">Budget</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ Number::currency($appointment->budget) }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Meeting Date At</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                asdsadasdasds
+                            <p class="text-sm text-slate-500">Meeting Date At</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $appointment->meeting_at->diffForHumans() }}
                             </h3>
                         </div>
 
@@ -73,7 +73,7 @@
 
                 <hr class="my-5">
 
-                <a href="#" class="text-center font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                <a href="#" class="px-6 py-4 font-bold text-center text-white bg-indigo-700 rounded-full">
                     Follow Up Customer
                 </a>
 

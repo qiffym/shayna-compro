@@ -154,7 +154,7 @@
                         <h2 class="font-bold text-4xl leading-[45px]">{{ $product->name }}</h2>
                         <p class="leading-[30px] text-cp-light-grey">{{ $product->about }}</p>
                     </div>
-                    <a href=""
+                    <a href="{{ route('front.appointment') }}"
                        class="bg-cp-dark-blue p-[14px_20px] w-fit rounded-xl hover:shadow-[0_12px_30px_0_#312ECB66] transition-all duration-300 font-bold text-white">Book
                         Appointment</a>
                 </div>
@@ -193,7 +193,7 @@
                     <p>Belum ada data terbaru.</p>
                 @endforelse
 
-                <a href="team.html" class="view-all-card">
+                <a href="{{ route('front.team') }}" class="view-all-card">
                     <div
                          class="card bg-white flex flex-col h-full justify-center items-center p-[30px] gap-[30px] rounded-[20px] border border-white hover:shadow-[0_10px_30px_0_#D1D4DF80] hover:border-cp-dark-blue transition-all duration-300">
                         <div class="w-[60px] h-[60px] flex shrink-0">
@@ -326,7 +326,7 @@
                     <div class="flex flex-col gap-[10px]">
                         <h2 class="font-bold text-4xl leading-[45px]">Frequently Asked Questions</h2>
                     </div>
-                    <a href="contact.html" class="p-5 font-bold text-white bg-cp-black rounded-xl w-fit">Contact Us</a>
+                    <a href="{{ route('front.appointment') }}" class="p-5 font-bold text-white bg-cp-black rounded-xl w-fit">Contact Us</a>
                 </div>
                 <div class="flex flex-col gap-[30px] sm:w-[603px] shrink-0">
                     <div class="flex flex-col w-full p-5 bg-white rounded-2xl">
