@@ -18,11 +18,13 @@
 </head>
 
 <body>
-    {{ $slot }}
+    <main>
+        {{ $slot }}
+    </main>
 
-    @isset($after_script)
-        {{ $after_script }}
-    @endisset
+    @include('front.partials.footer')
+
+    @stack('after-script')
 </body>
 
 </html>

@@ -80,16 +80,15 @@ class ProjectClientController extends Controller
             if ($request->hasFile('avatar') || $request->hasFile('logo')) {
                 if ($request->hasFile('avatar')) {
                     Storage::delete("public/$client->avatar");
+                    $avatarPath = $request->file('avatar')->store('avatars', 'public');
+                    $validatedData['avatar'] = $avatarPath;
                 }
+
                 if ($request->hasFile('logo')) {
                     Storage::delete("public/$client->logo");
+                    $logoPath = $request->file('logo')->store('logos', 'public');
+                    $validatedData['logo'] = $logoPath;
                 }
-
-                $avatarPath = $request->file('avatar')->store('avatars', 'public');
-                $logoPath = $request->file('logo')->store('logos', 'public');
-
-                $validatedData['avatar'] = $avatarPath;
-                $validatedData['logo'] = $logoPath;
             }
 
             $client->update($validatedData);
